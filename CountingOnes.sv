@@ -5,7 +5,7 @@ module model #(parameter
   output logic [$clog2(DATA_WIDTH):0] dout
 );
 
-  always_comb begin
+  always @* begin
     dout = 0;
     for (int i = 0; i < DATA_WIDTH; i++) begin
 

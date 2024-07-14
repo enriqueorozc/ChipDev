@@ -7,7 +7,7 @@ module mode (#parameter
 
   logic [$clog2(DATA_WIDTH):0] count;
 
-  always_comb begin
+  always @* begin
     count = 0;
     for (int i = 0; i < DATA_WIDTH; i++) begin
 
