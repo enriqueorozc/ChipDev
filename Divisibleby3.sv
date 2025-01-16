@@ -27,11 +27,10 @@ module model (
   // Next-State Loop (Combinational):
   always @* begin
     case (state)
-      INIT: nextState = (din) ? R1 : INIT;
+      INIT: nextState = (din) ? R1 : R0;
       R0: nextState = (din) ? R1 : R0;
-      R1: nextState = (din) ? R0 : R1;
-      R2: nextState = (din) ? R1 : R2;
-      default: nextState = INIT;
+      R1: nextState = (din) ? R0 : R2;
+      R2: nextState = (din) ? R2 : R1;
     endcase
   end
 
