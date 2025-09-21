@@ -1,9 +1,9 @@
 module model (
-    input [7:0] din,
-    input clk,
-    input resetn,
-    output reg [17:0] dout,
-    output reg run
+  input [7:0] din,
+  input clk,
+  input resetn,
+  output reg [17:0] dout,
+  output reg run
 );
 
   // Counter Register:
