@@ -8,18 +8,19 @@ module model (
 );
 
   // FSM States:
-  parameter S0 = 2'b00;
-  parameter S1 = 3'b01;
-  parameter S2 = 3'b10;
+  typedef enum logic [2:0] {
+    S0,
+    S1,
+    S2
+  } statetype;
 
-  logic [1:0] state, nextState;
+  statetype state, nextState;
 
-  // Input Registers:
+  // Value Registers:
   logic dinFF, cenFF;
 
-  // Sequential Loop:
+  // Next-State + Reset Logic (Sequential):
   always_ff @(posedge clk) begin
-
     if (!resetn) begin
       state <= S0;
       dinFF <= 0;
@@ -29,21 +30,18 @@ module model (
       dinFF <= din;
       cenFF <= cen;
     end
-
   end
 
   // Next-State Logic (Combinational):
-  always @* begin
+  always_comb begin
     case (state)
       S0: nextState = (din == dinFF) ? S1 : S0;
       S1: nextState = (din == dinFF) ? S2 : S0;
-      S2: nextState = (din == dinFF) ? S2 : S0; 
-      default: nextState = S0;
+      S2: nextState = (din == dinFF) ? S2 : S0;
     endcase
   end
 
-  // Output Logic:
-  assign doutx = (cenFF) ? (state == S1 | state == S2) : 0;
-  assign douty = (cenFF) ? (state == S2) : 0;
+  assign doutx = (cenFF) && (state == S1 || state == S2);
+  assign douty = (cenFF) && (state == S2); 
 
 endmodule
